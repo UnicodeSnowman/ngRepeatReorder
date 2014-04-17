@@ -220,16 +220,19 @@ module.directive 'ngRepeatReorder', [
 								return false
 							else
 								@resetMargins()
-						#used for the start event
 						startevent: ($event, $element, $index) ->
-							$element.parent().addClass "active-drag-below"
-							#we get the gesture ONCE then continue using it forever till the end
-							@gesture = if $event.gesture.direction is "up" or $event.gesture.direction is "down" then "vertical" else "horizontal"
-							@deltaOffset = $element[0].offsetTop
-							@updateElementClass $element
-							@offset = 0
-							@setMargins $element, '', "-#{$element[0].offsetHeight}px"
-							@updateOffset $event, $element, $index
+							@direction = $event.gesture.direction
+							if @direction is "up" or @direction is "down"
+								$element.parent().addClass "active-drag-below"
+								#we get the gesture ONCE then continue using it forever till the end
+								@gesture = "vertical"
+								@deltaOffset = $element[0].offsetTop
+								@updateElementClass $element
+								@offset = 0
+								@setMargins $element, '', "-#{$element[0].offsetHeight}px"
+								@updateOffset $event, $element, $index
+							else
+								@gesture = "horizontal"
 							$event.preventDefault()
 						#when a drag event finishes
 						stopevent: ($event, $element, $index) ->
