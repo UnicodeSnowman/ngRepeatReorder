@@ -296,13 +296,18 @@
                 }
               },
               startevent: function($event, $element, $index) {
-                $element.parent().addClass("active-drag-below");
-                this.gesture = $event.gesture.direction === "up" || $event.gesture.direction === "down" ? "vertical" : "horizontal";
-                this.deltaOffset = $element[0].offsetTop;
-                this.updateElementClass($element);
-                this.offset = 0;
-                this.setMargins($element, '', "-" + $element[0].offsetHeight + "px");
-                this.updateOffset($event, $element, $index);
+                this.direction = $event.gesture.direction;
+                if (this.direction === "up" || this.direction === "down") {
+                  $element.parent().addClass("active-drag-below");
+                  this.gesture = "vertical";
+                  this.deltaOffset = $element[0].offsetTop;
+                  this.updateElementClass($element);
+                  this.offset = 0;
+                  this.setMargins($element, '', "-" + $element[0].offsetHeight + "px");
+                  this.updateOffset($event, $element, $index);
+                } else {
+                  this.gesture = "horizontal";
+                }
                 return $event.preventDefault();
               },
               stopevent: function($event, $element, $index) {
@@ -396,8 +401,6 @@
             }
             index = 0;
             length = collectionKeys.length;
-            console.log(nextBlockMap);
-            console.log(nextBlockOrder);
             while (index < length) {
               key = (collection === collectionKeys ? index : collectionKeys[index]);
               value = collection[key];
