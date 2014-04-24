@@ -17,7 +17,7 @@
   ],
   "dependencies": {
     "angular": "~1.2.13",
-    "angular-hammer": "git@github.com:UnicodeSnowman/angular-hammer.git#~1.0.4",
+    "angular-hammer": "https://github.com/UnicodeSnowman/angular-hammer.git#~1.0.4",
     "hammerjs": "1.x"
   },
   "devDependencies": {
