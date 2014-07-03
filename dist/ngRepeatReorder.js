@@ -335,7 +335,7 @@
               }
             };
             isArrayLike = function(obj) {
-              var _ref;
+              var _base, _ref;
               if (obj === null || (obj && obj.document && obj.location && obj.alert && obj.setInterval)) {
                 return false;
               }
@@ -343,7 +343,7 @@
               if (obj.nodeType === 1 && length) {
                 return true;
               }
-              return typeof obj === 'string' || toString.call(obj) === '[object Array]' || length === 0 || typeof length === 'number' && length > 0 && (_ref = length - 1, __indexOf.call(obj, _ref) >= 0);
+              return typeof obj === 'string' || (typeof (_base = Object.prototype.toString).call === "function" ? _base.call(obj) : void 0) === '[object Array]' || length === 0 || typeof length === 'number' && length > 0 && (_ref = length - 1, __indexOf.call(obj, _ref) >= 0);
             };
             if (isArrayLike(collection)) {
               collectionKeys = collection;
