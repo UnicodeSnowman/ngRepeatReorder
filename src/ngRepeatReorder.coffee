@@ -72,6 +72,7 @@ module.directive 'ngRepeatReorder', [
 			$$tlb: true
 			link: ($scope, $element, $attr, ctrl, $transclude) ->
 				expression = $attr.ngRepeatReorder
+				onUpdateOrder = $attr.onUpdateOrder
 				match = expression.match(/^\s*([\s\S]+?)\s+in\s+([\s\S]+?)(?:\s+track\s+by\s+([\s\S]+?))?\s*$/)
 				trackByExp = undefined
 				trackByExpGetter = undefined
@@ -245,8 +246,13 @@ module.directive 'ngRepeatReorder', [
 							if @offset isnt 0
 								collection = $scope.$eval(rhs)
 								obj = collection.splice $index, 1
-								if @offset < 0 then collection.splice $index + @offset + 1, 0, obj[0]
-								else if @offset > 0 then collection.splice $index + @offset - 1, 0, obj[0]
+								if @offset < 0 
+                                    displacedIndex = $index + this.offset + 1
+                                    collection.splice $index + @offset + 1, 0, obj[0]
+								else if @offset > 0 
+                                    displacedIndex = $index + this.offset - 1
+                                    collection.splice $index + @offset - 1, 0, obj[0]
+								$scope[onUpdateOrder]?(obj, displacedIndex)
 							#so it shouldn't dissapear during transition
 							$element.removeClass 'dragging'
 							$event.preventDefault()

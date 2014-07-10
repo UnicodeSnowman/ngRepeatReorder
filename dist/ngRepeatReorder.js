@@ -97,8 +97,9 @@
         terminal: true,
         $$tlb: true,
         link: function($scope, $element, $attr, ctrl, $transclude) {
-          var dragAfterElement, dragBeforeElement, expression, hashFnLocals, keyIdentifier, lastBlockMap, lhs, match, ngRepeatAction, rhs, trackByExp, trackByExpGetter, trackByIdArrayFn, trackByIdExpFn, trackByIdObjFn, valueIdentifier;
+          var dragAfterElement, dragBeforeElement, expression, hashFnLocals, keyIdentifier, lastBlockMap, lhs, match, ngRepeatAction, onUpdateOrder, rhs, trackByExp, trackByExpGetter, trackByIdArrayFn, trackByIdExpFn, trackByIdObjFn, valueIdentifier;
           expression = $attr.ngRepeatReorder;
+          onUpdateOrder = $attr.onUpdateOrder;
           match = expression.match(/^\s*([\s\S]+?)\s+in\s+([\s\S]+?)(?:\s+track\s+by\s+([\s\S]+?))?\s*$/);
           trackByExp = void 0;
           trackByExpGetter = void 0;
@@ -311,7 +312,7 @@
                 return $event.preventDefault();
               },
               stopevent: function($event, $element, $index) {
-                var obj;
+                var displacedIndex, obj;
                 $element.parent().removeClass("active-drag-below");
                 this.resetMargins();
                 this.resetPosition($element);
@@ -325,9 +326,14 @@
                   collection = $scope.$eval(rhs);
                   obj = collection.splice($index, 1);
                   if (this.offset < 0) {
+                    displacedIndex = $index + this.offset + 1;
                     collection.splice($index + this.offset + 1, 0, obj[0]);
                   } else if (this.offset > 0) {
+                    displacedIndex = $index + this.offset - 1;
                     collection.splice($index + this.offset - 1, 0, obj[0]);
+                  }
+                  if (typeof $scope[onUpdateOrder] === "function") {
+                    $scope[onUpdateOrder](obj, displacedIndex);
                   }
                 }
                 $element.removeClass('dragging');
