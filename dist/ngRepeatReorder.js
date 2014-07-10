@@ -312,7 +312,7 @@
                 return $event.preventDefault();
               },
               stopevent: function($event, $element, $index) {
-                var displaced, obj;
+                var displacedIndex, obj;
                 $element.parent().removeClass("active-drag-below");
                 this.resetMargins();
                 this.resetPosition($element);
@@ -324,15 +324,16 @@
                 }
                 if (this.offset !== 0) {
                   collection = $scope.$eval(rhs);
-                  displaced = collection[$index];
                   obj = collection.splice($index, 1);
-                  if (typeof $scope[onUpdateOrder] === "function") {
-                    $scope[onUpdateOrder](obj[0], displaced);
-                  }
                   if (this.offset < 0) {
-                    collection.splice($index + this.offset + 1, 0, obj[0]);
+                    displacedIndex = $index + this.offset + 1;
+                    collection.splice(displacedIndex, 0, obj[0]);
                   } else if (this.offset > 0) {
-                    collection.splice($index + this.offset - 1, 0, obj[0]);
+                    displacedIndex = $index + this.offset - 1;
+                    collection.splice(displacedIndex, 0, obj[0]);
+                  }
+                  if (typeof $scope[onUpdateOrder] === "function") {
+                    $scope[onUpdateOrder](obj, displacedIndex);
                   }
                 }
                 $element.removeClass('dragging');
