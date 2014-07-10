@@ -252,7 +252,7 @@ module.directive 'ngRepeatReorder', [
 								else if @offset > 0 
                                     displacedIndex = $index + this.offset - 1
                                     collection.splice displacedIndex, 0, obj[0]
-								$scope[onUpdateOrder]?(obj, displacedIndex)
+								$scope[onUpdateOrder]?(obj[0], displacedIndex)
 							#so it shouldn't dissapear during transition
 							$element.removeClass 'dragging'
 							$event.preventDefault()

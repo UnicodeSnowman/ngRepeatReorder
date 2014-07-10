@@ -333,7 +333,7 @@
                     collection.splice(displacedIndex, 0, obj[0]);
                   }
                   if (typeof $scope[onUpdateOrder] === "function") {
-                    $scope[onUpdateOrder](obj, displacedIndex);
+                    $scope[onUpdateOrder](obj[0], displacedIndex);
                   }
                 }
                 $element.removeClass('dragging');
