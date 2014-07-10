@@ -327,10 +327,10 @@
                   obj = collection.splice($index, 1);
                   if (this.offset < 0) {
                     displacedIndex = $index + this.offset + 1;
-                    collection.splice($index + this.offset + 1, 0, obj[0]);
+                    collection.splice(displacedIndex, 0, obj[0]);
                   } else if (this.offset > 0) {
                     displacedIndex = $index + this.offset - 1;
-                    collection.splice($index + this.offset - 1, 0, obj[0]);
+                    collection.splice(displacedIndex, 0, obj[0]);
                   }
                   if (typeof $scope[onUpdateOrder] === "function") {
                     $scope[onUpdateOrder](obj, displacedIndex);
